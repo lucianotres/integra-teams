@@ -1,7 +1,7 @@
 package br.dev.ltres.poc.integrateams.infrastructure.persistence.jpa;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
@@ -34,28 +34,30 @@ public class AgendaEventoRepositoryImpl implements AgendaEventoRepository {
                 .map(AgendaEventoMapper::toDomain);
     }
 
-    private AgendaEvento[] resultadoFindParaDominio(Optional<AgendaEventoEntity[]> entities) {
-        return Arrays.stream(entities.orElse(new AgendaEventoEntity[0]))
+    private List<AgendaEvento> resultadoFindParaDominio(Optional<List<AgendaEventoEntity>> entities) {
+        return entities
+                .orElse(List.of())
+                .stream()
                 .map(AgendaEventoMapper::toDomain)
-                .toArray(AgendaEvento[]::new);
+                .toList();
     }
 
     @Override
-    public AgendaEvento[] buscarEventosPeriodo(LocalDateTime inicio, LocalDateTime fim) {
+    public List<AgendaEvento> buscarEventosPeriodo(LocalDateTime inicio, LocalDateTime fim) {
         return resultadoFindParaDominio(jpaRepository.findByInicioGreaterThanEqualAndFimLessThanEqual(inicio, fim));
     }
 
     @Override
-    public AgendaEvento[] buscarEventosPorCategoria(String categoria) {
+    public List<AgendaEvento> buscarEventosPorCategoria(String categoria) {
         return resultadoFindParaDominio(jpaRepository.findByCategoriasCategoriaIgnoreCase(categoria));
     }
 
     @Override
-    public AgendaEvento[] buscarEventosTodos() {
+    public List<AgendaEvento> buscarEventosTodos() {
         return jpaRepository.findAll()
                 .stream()
                 .map(AgendaEventoMapper::toDomain)
-                .toArray(AgendaEvento[]::new);
+                .toList();
     }
 
     @Override

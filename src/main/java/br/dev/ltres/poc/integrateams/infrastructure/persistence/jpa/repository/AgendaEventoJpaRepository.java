@@ -1,5 +1,6 @@
 package br.dev.ltres.poc.integrateams.infrastructure.persistence.jpa.repository;
 
+import java.util.List;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -9,9 +10,9 @@ import br.dev.ltres.poc.integrateams.infrastructure.persistence.jpa.entity.Agend
 
 public interface AgendaEventoJpaRepository extends JpaRepository<AgendaEventoEntity, Long> {
 
-    Optional<AgendaEventoEntity[]> findByInicioGreaterThanEqualAndFimLessThanEqual(LocalDateTime inicio,
+    Optional<List<AgendaEventoEntity>> findByInicioGreaterThanEqualAndFimLessThanEqual(LocalDateTime inicio,
             LocalDateTime fim);
 
-    Optional<AgendaEventoEntity[]> findByCategoriasCategoriaIgnoreCase(String categoria);
+    Optional<List<AgendaEventoEntity>> findByCategoriasCategoriaIgnoreCase(String categoria);
 
 }

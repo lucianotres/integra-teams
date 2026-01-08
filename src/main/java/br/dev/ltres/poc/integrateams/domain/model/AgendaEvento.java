@@ -3,8 +3,6 @@ package br.dev.ltres.poc.integrateams.domain.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import br.dev.ltres.poc.integrateams.infrastructure.persistence.jpa.entity.AgendaEventoCategoriaEntity;
-
 public class AgendaEvento {
     private Long id;
     private String titulo;
@@ -73,8 +71,8 @@ public class AgendaEvento {
         return descricao;
     }
 
-    public String[] getCategorias() {
-        return categorias.toArray(String[]::new);
+    public List<String> getCategorias() {
+        return categorias.stream().toList();
     }
 
     public LocalDateTime getInicio() {

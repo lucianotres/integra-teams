@@ -1,4 +1,4 @@
-package br.dev.ltres.poc.integrateams.bootstrap;
+package br.dev.ltres.poc.integrateams;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
