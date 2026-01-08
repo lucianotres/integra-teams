@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+microsoft:
+  graph:
+    tenant-id: "00000000-0000-0000-0000-000000000000"
+    client-id: "00000000-0000-0000-0000-000000000000"
+    client-secret: "0000000000000000000000000000000000000000"
+    default-user-id: "usuario@dominio.onmicrosoft.com"
