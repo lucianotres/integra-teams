@@ -1,7 +1,7 @@
-package br.dev.ltres.poc.integrateams.controller;
+package br.dev.ltres.poc.integrateams.interfaces.rest;
 
-import br.dev.ltres.poc.integrateams.dto.CreateEventRequest;
-import br.dev.ltres.poc.integrateams.service.CalendarService;
+import br.dev.ltres.poc.integrateams.interfaces.rest.request.CreateEventRequest;
+
 import com.microsoft.graph.models.Event;
 import com.microsoft.graph.models.EventCollectionResponse;
 import org.springframework.http.ResponseEntity;

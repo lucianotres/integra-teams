@@ -1,4 +1,4 @@
-package br.dev.ltres.poc.integrateams.dto;
+package br.dev.ltres.poc.integrateams.interfaces.rest.request;
 
 import lombok.Data;
 
