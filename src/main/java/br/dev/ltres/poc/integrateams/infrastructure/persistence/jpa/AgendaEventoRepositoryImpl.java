@@ -69,8 +69,12 @@ public class AgendaEventoRepositoryImpl implements AgendaEventoRepository {
 
     @Override
     public List<AgendaEvento> buscaEventosAEnviar() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buscaEventosAEnviar'");
+        var entities = jpaRepository.findByMsGraphIsNullOrMsGraphChangeKeyIsNull();
+        return entities
+                .orElse(List.of())
+                .stream()
+                .map(AgendaEventoMapper::toDomain)
+                .toList();
     }
 
 }

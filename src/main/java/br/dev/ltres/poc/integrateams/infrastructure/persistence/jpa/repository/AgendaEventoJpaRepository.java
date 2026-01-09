@@ -15,4 +15,6 @@ public interface AgendaEventoJpaRepository extends JpaRepository<AgendaEventoEnt
 
     Optional<List<AgendaEventoEntity>> findByCategoriasCategoriaIgnoreCase(String categoria);
 
+    Optional<List<AgendaEventoEntity>> findByMsGraphIsNullOrMsGraphChangeKeyIsNull();
+
 }
