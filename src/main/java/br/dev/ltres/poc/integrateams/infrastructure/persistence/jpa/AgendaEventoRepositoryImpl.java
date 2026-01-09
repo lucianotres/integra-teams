@@ -67,4 +67,10 @@ public class AgendaEventoRepositoryImpl implements AgendaEventoRepository {
         jpaRepository.deleteById(id);
     }
 
+    @Override
+    public List<AgendaEvento> buscaEventosAEnviar() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'buscaEventosAEnviar'");
+    }
+
 }
