@@ -8,5 +8,9 @@ public record AgendaEventoDTO(Long id,
         String descricao,
         List<String> categorias,
         LocalDateTime inicio,
-        LocalDateTime fim) {
+        LocalDateTime fim,
+        String msGraphId,
+        String changeKey,
+        LocalDateTime createdDateTime,
+        LocalDateTime lastModifiedDateTime) {
 }

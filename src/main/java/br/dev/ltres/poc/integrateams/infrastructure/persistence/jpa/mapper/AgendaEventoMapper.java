@@ -1,6 +1,7 @@
 package br.dev.ltres.poc.integrateams.infrastructure.persistence.jpa.mapper;
 
 import br.dev.ltres.poc.integrateams.domain.model.AgendaEvento;
+import br.dev.ltres.poc.integrateams.domain.model.RegistroEventoMSGraph;
 import br.dev.ltres.poc.integrateams.infrastructure.persistence.jpa.entity.AgendaEventoEntity;
 import br.dev.ltres.poc.integrateams.infrastructure.persistence.jpa.entity.AgendaEventoCategoriaEntity;
 
@@ -29,6 +30,13 @@ public class AgendaEventoMapper {
         domain.setDescricao(entity.getDescricao());
         domain.setInicioFim(entity.getInicio(), entity.getFim());
         entity.getCategorias().forEach(categoriaEntity -> domain.addCategoria(categoriaEntity.getCategoria()));
+
+        var msGraph = entity.getMsGraph();
+        if (msGraph != null) {
+            domain.setRegistroGraph(new RegistroEventoMSGraph(msGraph.getMsGraphId(), msGraph.getChangeKey(),
+                    msGraph.getCreatedDateTime(), msGraph.getLastModifiedDateTime()));
+        }
+
         return domain;
     }
 }

@@ -26,7 +26,7 @@ public class AgendaEventoCategoriaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "evento_id", nullable = false)
     private AgendaEventoEntity evento;
 

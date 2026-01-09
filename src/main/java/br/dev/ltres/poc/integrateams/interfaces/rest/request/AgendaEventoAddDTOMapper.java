@@ -10,6 +10,10 @@ public class AgendaEventoAddDTOMapper {
                 dto.descricao(),
                 dto.categorias(),
                 dto.inicio(),
-                dto.fim());
+                dto.fim(),
+                null,
+                null,
+                null,
+                null);
     }
 }

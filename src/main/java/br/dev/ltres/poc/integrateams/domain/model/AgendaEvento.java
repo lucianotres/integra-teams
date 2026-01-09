@@ -11,6 +11,7 @@ public class AgendaEvento {
     private List<String> categorias;
     private LocalDateTime inicio;
     private LocalDateTime fim;
+    private RegistroEventoMSGraph registroGraph;
 
     public AgendaEvento(Long id) {
         this.id = id;
@@ -83,5 +84,13 @@ public class AgendaEvento {
 
     public LocalDateTime getFim() {
         return fim;
+    }
+
+    public void setRegistroGraph(RegistroEventoMSGraph registroGraph) {
+        this.registroGraph = registroGraph;
+    }
+
+    public RegistroEventoMSGraph getRegistroGraph() {
+        return registroGraph;
     }
 }
