@@ -12,4 +12,13 @@ public class AgendaEventoDTOMapper {
                 evento.getInicio(),
                 evento.getFim());
     }
+
+    public static AgendaEvento toDomain(AgendaEventoDTO dto) {
+        var evento = new AgendaEvento(null);
+        evento.setTitulo(dto.titulo());
+        evento.setDescricao(dto.descricao());
+        evento.setInicioFim(dto.inicio(), dto.fim());
+        dto.categorias().forEach(c -> evento.addCategoria(c));
+        return evento;
+    }
 }

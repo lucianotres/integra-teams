@@ -11,6 +11,7 @@ import br.dev.ltres.poc.integrateams.domain.repository.AgendaEventoRepository;
 import br.dev.ltres.poc.integrateams.infrastructure.persistence.jpa.entity.AgendaEventoEntity;
 import br.dev.ltres.poc.integrateams.infrastructure.persistence.jpa.mapper.AgendaEventoMapper;
 import br.dev.ltres.poc.integrateams.infrastructure.persistence.jpa.repository.AgendaEventoJpaRepository;
+import jakarta.transaction.Transactional;
 
 @Repository
 public class AgendaEventoRepositoryImpl implements AgendaEventoRepository {
@@ -22,6 +23,7 @@ public class AgendaEventoRepositoryImpl implements AgendaEventoRepository {
     }
 
     @Override
+    @Transactional
     public AgendaEvento salvar(AgendaEvento evento) {
         var entity = AgendaEventoMapper.toEntity(evento);
         var savedEntity = jpaRepository.save(entity);

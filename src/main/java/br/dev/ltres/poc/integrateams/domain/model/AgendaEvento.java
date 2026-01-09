@@ -1,6 +1,7 @@
 package br.dev.ltres.poc.integrateams.domain.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AgendaEvento {
@@ -13,6 +14,7 @@ public class AgendaEvento {
 
     public AgendaEvento(Long id) {
         this.id = id;
+        this.categorias = new ArrayList<String>();
     }
 
     public void setTitulo(String titulo) {
