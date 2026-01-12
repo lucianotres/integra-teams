@@ -1,6 +1,7 @@
 package br.dev.ltres.poc.integrateams.application.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record MSGraphEvent(
         String id,
@@ -13,5 +14,6 @@ public record MSGraphEvent(
         Boolean isReminderOn,
         String changeKey,
         LocalDateTime createdDateTime,
-        LocalDateTime lastModifiedDateTime) {
+        LocalDateTime lastModifiedDateTime,
+        List<String> categories) {
 }

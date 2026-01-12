@@ -45,7 +45,8 @@ public class MicrosoftGraphAPI implements MicrosoftGraphGateway {
                 event.getIsReminderOn(),
                 event.getChangeKey(),
                 event.getCreatedDateTime().toLocalDateTime(),
-                event.getLastModifiedDateTime().toLocalDateTime());
+                event.getLastModifiedDateTime().toLocalDateTime(),
+                event.getCategories());
     }
 
     private Event convertFromMSGraphEvent(MSGraphEvent evento) {
@@ -68,6 +69,9 @@ public class MicrosoftGraphAPI implements MicrosoftGraphGateway {
             event.setIsReminderOn(true);
             event.setReminderMinutesBeforeStart(15);
         }
+
+        if (evento.categories() != null)
+            event.setCategories(evento.categories());
 
         return event;
     }
