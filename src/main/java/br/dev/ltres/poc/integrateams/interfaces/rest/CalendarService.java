@@ -1,8 +1,10 @@
-package br.dev.ltres.poc.integrateams.service;
+package br.dev.ltres.poc.integrateams.interfaces.rest;
 
-import br.dev.ltres.poc.integrateams.dto.CreateEventRequest;
 import com.microsoft.graph.models.*;
 import com.microsoft.graph.serviceclient.GraphServiceClient;
+
+import br.dev.ltres.poc.integrateams.interfaces.rest.request.CreateEventRequest;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

@@ -7,3 +7,26 @@ microsoft:
     client-id: "00000000-0000-0000-0000-000000000000"
     client-secret: "0000000000000000000000000000000000000000"
     default-user-id: "usuario@dominio.onmicrosoft.com"
+
+agenda:
+  sincronizacao:
+    tempo-fixo: 5000
+    quantidade-falhas-para-suspensao: 5
+    tempo-para-reativao-apos-suspensao: 10
+
+spring:
+  datasource:
+    url: "jdbc:h2:file:./data/db"
+    driverClassName: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
+      format-sql: true
+  h2:
+    console:
+      enabled: true
+
+logging:
+  level:
+    '[br.dev.ltres.poc.integrateams.infrastructure]': TRACE

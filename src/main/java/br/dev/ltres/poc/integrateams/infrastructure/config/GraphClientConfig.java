@@ -1,6 +1,5 @@
-package br.dev.ltres.poc.integrateams.config;
+package br.dev.ltres.poc.integrateams.infrastructure.config;
 
-import com.azure.identity.ClientSecretCredential;
 import com.azure.identity.ClientSecretCredentialBuilder;
 import com.microsoft.graph.serviceclient.GraphServiceClient;
 import org.springframework.beans.factory.annotation.Value;
