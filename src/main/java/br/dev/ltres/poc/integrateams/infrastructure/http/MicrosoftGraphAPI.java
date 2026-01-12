@@ -48,8 +48,7 @@ public class MicrosoftGraphAPI implements MicrosoftGraphGateway {
                 event.getLastModifiedDateTime().toLocalDateTime());
     }
 
-    @Override
-    public MSGraphEvent registraNovoEvento(MSGraphEvent evento) {
+    private Event convertFromMSGraphEvent(MSGraphEvent evento) {
         var event = new Event();
         event.setSubject(evento.subject());
         event.setStart(convertFromLocalDateTime(evento.start()));
@@ -70,6 +69,13 @@ public class MicrosoftGraphAPI implements MicrosoftGraphGateway {
             event.setReminderMinutesBeforeStart(15);
         }
 
+        return event;
+    }
+
+    @Override
+    public MSGraphEvent registraNovoEvento(MSGraphEvent evento) {
+        var event = convertFromMSGraphEvent(evento);
+
         var returnedEvent = client.users().byUserId(defaultUserId).events().post(event);
 
         return convertToMSGraphEvent(returnedEvent);
@@ -77,8 +83,11 @@ public class MicrosoftGraphAPI implements MicrosoftGraphGateway {
 
     @Override
     public MSGraphEvent atualizaEvento(MSGraphEvent evento) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'atualizaEvento'");
+        var event = convertFromMSGraphEvent(evento);
+
+        var returnedEvent = client.users().byUserId(defaultUserId).events().byEventId(evento.id()).patch(event);
+
+        return convertToMSGraphEvent(returnedEvent);
     }
 
 }

@@ -47,10 +47,9 @@ public class AgendaEventoMapper {
         entity.setInicio(evento.getInicio());
         entity.setFim(evento.getFim());
 
-        var categoriasJaNaEntity = entity.getCategorias().stream();
         evento.getCategorias()
                 .stream()
-                .filter(f -> !categoriasJaNaEntity.anyMatch(c -> c.getCategoria().equalsIgnoreCase(f)))
+                .filter(f -> !entity.getCategorias().stream().anyMatch(c -> c.getCategoria().equalsIgnoreCase(f)))
                 .toList()
                 .forEach(c -> {
                     var novaCategoria = new AgendaEventoCategoriaEntity();
@@ -59,9 +58,8 @@ public class AgendaEventoMapper {
                     entity.getCategorias().add(novaCategoria);
                 });
 
-        var categoriasNoEventoAtualizado = evento.getCategorias().stream();
         entity.getCategorias()
-                .removeIf(c -> !categoriasNoEventoAtualizado.anyMatch(f -> f.equalsIgnoreCase(c.getCategoria())));
+                .removeIf(c -> !evento.getCategorias().stream().anyMatch(f -> f.equalsIgnoreCase(c.getCategoria())));
 
         if (alteraIncluiMsGraph) {
             var msGraph = evento.getRegistroGraph();
