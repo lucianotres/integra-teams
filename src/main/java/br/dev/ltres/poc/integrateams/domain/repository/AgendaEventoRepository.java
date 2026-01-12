@@ -18,7 +18,7 @@ public interface AgendaEventoRepository {
 
     List<AgendaEvento> buscarEventosTodos();
 
-    void excluir(Long id);
+    boolean excluir(Long id);
 
     List<AgendaEvento> buscaEventosAEnviar();
 }

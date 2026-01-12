@@ -28,7 +28,7 @@ public class AgendaEventoRepositoryImpl implements AgendaEventoRepository {
         if (evento.getId() == null) {
             entity = AgendaEventoMapper.toEntity(evento);
         } else {
-            entity = jpaRepository.findById(evento.getId())
+            entity = jpaRepository.findByAtivoTrueAndId(evento.getId())
                     .orElseThrow(() -> new IllegalArgumentException("Evento não encontrado"));
 
             AgendaEventoMapper.updateEntity(evento, entity, alteraIncluiMsGraph);
@@ -44,7 +44,7 @@ public class AgendaEventoRepositoryImpl implements AgendaEventoRepository {
 
     @Override
     public Optional<AgendaEvento> buscaEvento(Long id) {
-        return jpaRepository.findById(id)
+        return jpaRepository.findByAtivoTrueAndId(id)
                 .map(AgendaEventoMapper::toDomain);
     }
 
@@ -58,12 +58,13 @@ public class AgendaEventoRepositoryImpl implements AgendaEventoRepository {
 
     @Override
     public List<AgendaEvento> buscarEventosPeriodo(LocalDateTime inicio, LocalDateTime fim) {
-        return resultadoFindParaDominio(jpaRepository.findByInicioGreaterThanEqualAndFimLessThanEqual(inicio, fim));
+        return resultadoFindParaDominio(
+                jpaRepository.findByAtivoTrueAndInicioGreaterThanEqualAndFimLessThanEqual(inicio, fim));
     }
 
     @Override
     public List<AgendaEvento> buscarEventosPorCategoria(String categoria) {
-        return resultadoFindParaDominio(jpaRepository.findByCategoriasCategoriaIgnoreCase(categoria));
+        return resultadoFindParaDominio(jpaRepository.findByAtivoTrueAndCategoriasCategoriaIgnoreCase(categoria));
     }
 
     @Override
@@ -75,13 +76,13 @@ public class AgendaEventoRepositoryImpl implements AgendaEventoRepository {
     }
 
     @Override
-    public void excluir(Long id) {
-        jpaRepository.deleteById(id);
+    public boolean excluir(Long id) {
+        return (jpaRepository.desativar(id) > 0);
     }
 
     @Override
     public List<AgendaEvento> buscaEventosAEnviar() {
-        var entities = jpaRepository.findByMsGraphIsNullOrMsGraphChangeKeyIsNull();
+        var entities = jpaRepository.findByAtivoTrueAndMsGraphIsNullOrMsGraphChangeKeyIsNull();
         return entities
                 .orElse(List.of())
                 .stream()

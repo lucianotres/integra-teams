@@ -44,4 +44,7 @@ public class AgendaEventoEntity {
     @OneToOne(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
     private AgendaEventoMSGraphEntity msGraph;
 
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private boolean ativo = true;
+
 }
