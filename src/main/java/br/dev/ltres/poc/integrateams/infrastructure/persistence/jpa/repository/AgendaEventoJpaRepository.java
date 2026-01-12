@@ -13,6 +13,8 @@ import br.dev.ltres.poc.integrateams.infrastructure.persistence.jpa.entity.Agend
 
 public interface AgendaEventoJpaRepository extends JpaRepository<AgendaEventoEntity, Long> {
 
+    List<AgendaEventoEntity> findByAtivoTrue();
+
     Optional<AgendaEventoEntity> findByAtivoTrueAndId(Long id);
 
     Optional<List<AgendaEventoEntity>> findByAtivoTrueAndInicioGreaterThanEqualAndFimLessThanEqual(LocalDateTime inicio,
@@ -20,9 +22,21 @@ public interface AgendaEventoJpaRepository extends JpaRepository<AgendaEventoEnt
 
     Optional<List<AgendaEventoEntity>> findByAtivoTrueAndCategoriasCategoriaIgnoreCase(String categoria);
 
-    Optional<List<AgendaEventoEntity>> findByAtivoTrueAndMsGraphIsNullOrMsGraphChangeKeyIsNull();
+    @Query("""
+                select a
+                from AgendaEventoEntity a
+                left join a.msGraph m
+                where
+                    (a.ativo = true and m is null)
+                    or (m is not null and m.changeKey is null)
+            """)
+    Optional<List<AgendaEventoEntity>> findPendentesEnvio();
 
     @Modifying
     @Query("update AgendaEventoEntity c set c.ativo = false where c.id = :id and c.ativo = true")
     int desativar(@Param("id") Long id);
+
+    @Modifying
+    @Query("update AgendaEventoMSGraphEntity c set c.changeKey = null where c.id = :id")
+    int limparChangeKey(@Param("id") Long id);
 }

@@ -12,6 +12,7 @@ public class AgendaEvento {
     private LocalDateTime inicio;
     private LocalDateTime fim;
     private RegistroEventoMSGraph registroGraph;
+    private boolean ativo = true;
 
     public AgendaEvento(Long id) {
         this.id = id;
@@ -92,5 +93,13 @@ public class AgendaEvento {
 
     public RegistroEventoMSGraph getRegistroGraph() {
         return registroGraph;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }

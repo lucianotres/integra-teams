@@ -6,4 +6,6 @@ public interface MicrosoftGraphGateway {
     MSGraphEvent registraNovoEvento(MSGraphEvent evento);
 
     MSGraphEvent atualizaEvento(MSGraphEvent evento);
+
+    boolean removeEvento(String id);
 }

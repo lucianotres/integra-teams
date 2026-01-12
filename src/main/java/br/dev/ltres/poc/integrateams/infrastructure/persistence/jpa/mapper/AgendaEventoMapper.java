@@ -14,6 +14,7 @@ public class AgendaEventoMapper {
         entity.setTitulo(evento.getTitulo());
         entity.setDescricao(evento.getDescricao());
         entity.setInicio(evento.getInicio());
+        entity.setAtivo(evento.isAtivo());
         entity.setFim(evento.getFim());
 
         for (String categoria : evento.getCategorias()) {
@@ -30,6 +31,7 @@ public class AgendaEventoMapper {
         domain.setTitulo(entity.getTitulo());
         domain.setDescricao(entity.getDescricao());
         domain.setInicioFim(entity.getInicio(), entity.getFim());
+        domain.setAtivo(entity.isAtivo());
         entity.getCategorias().forEach(categoriaEntity -> domain.addCategoria(categoriaEntity.getCategoria()));
 
         var msGraph = entity.getMsGraph();
@@ -46,6 +48,7 @@ public class AgendaEventoMapper {
         entity.setDescricao(evento.getDescricao());
         entity.setInicio(evento.getInicio());
         entity.setFim(evento.getFim());
+        entity.setAtivo(evento.isAtivo());
 
         evento.getCategorias()
                 .stream()

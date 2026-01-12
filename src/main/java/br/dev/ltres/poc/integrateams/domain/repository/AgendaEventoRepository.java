@@ -21,4 +21,6 @@ public interface AgendaEventoRepository {
     boolean excluir(Long id);
 
     List<AgendaEvento> buscaEventosAEnviar();
+
+    boolean salvaRemocaoEventoMsGraph(Long id);
 }

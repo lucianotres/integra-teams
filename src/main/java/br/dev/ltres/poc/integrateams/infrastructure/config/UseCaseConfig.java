@@ -7,6 +7,7 @@ import br.dev.ltres.poc.integrateams.application.gateway.MicrosoftGraphGateway;
 import br.dev.ltres.poc.integrateams.application.usecases.AgendaAddEvento;
 import br.dev.ltres.poc.integrateams.application.usecases.AgendaAtualizaEvento;
 import br.dev.ltres.poc.integrateams.application.usecases.AgendaEventoParaMSGraph;
+import br.dev.ltres.poc.integrateams.application.usecases.AgendaExcluiEvento;
 import br.dev.ltres.poc.integrateams.application.usecases.AgendaListaEventos;
 import br.dev.ltres.poc.integrateams.domain.repository.AgendaEventoRepository;
 
@@ -26,6 +27,11 @@ public class UseCaseConfig {
     @Bean
     public AgendaAtualizaEvento agendaAtualizaEvento(AgendaEventoRepository repository) {
         return new AgendaAtualizaEvento(repository);
+    }
+
+    @Bean
+    public AgendaExcluiEvento agendaExcluiEvento(AgendaEventoRepository repository) {
+        return new AgendaExcluiEvento(repository);
     }
 
     @Bean

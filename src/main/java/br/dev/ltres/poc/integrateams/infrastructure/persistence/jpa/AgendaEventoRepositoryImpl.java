@@ -69,7 +69,7 @@ public class AgendaEventoRepositoryImpl implements AgendaEventoRepository {
 
     @Override
     public List<AgendaEvento> buscarEventosTodos() {
-        return jpaRepository.findAll()
+        return jpaRepository.findByAtivoTrue()
                 .stream()
                 .map(AgendaEventoMapper::toDomain)
                 .toList();
@@ -77,17 +77,35 @@ public class AgendaEventoRepositoryImpl implements AgendaEventoRepository {
 
     @Override
     public boolean excluir(Long id) {
+        jpaRepository.limparChangeKey(id);
         return (jpaRepository.desativar(id) > 0);
     }
 
     @Override
     public List<AgendaEvento> buscaEventosAEnviar() {
-        var entities = jpaRepository.findByAtivoTrueAndMsGraphIsNullOrMsGraphChangeKeyIsNull();
+        var entities = jpaRepository.findPendentesEnvio();
         return entities
                 .orElse(List.of())
                 .stream()
                 .map(AgendaEventoMapper::toDomain)
                 .toList();
+    }
+
+    @Override
+    public boolean salvaRemocaoEventoMsGraph(Long id) {
+        var entity = jpaRepository.findById(id);
+        if (entity.isEmpty())
+            return false;
+
+        var msGraph = entity.get().getMsGraph();
+        if (msGraph == null) {
+            return false;
+        }
+
+        msGraph.setChangeKey("removed");
+
+        jpaRepository.save(entity.get());
+        return true;
     }
 
 }

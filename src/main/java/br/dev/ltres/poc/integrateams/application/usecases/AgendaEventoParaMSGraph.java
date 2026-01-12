@@ -25,7 +25,11 @@ public class AgendaEventoParaMSGraph {
 
         int total = 0;
         for (var evento : aEnviar) {
-            registraViaGateway(evento, evento.getRegistroGraph() == null);
+            if (evento.isAtivo())
+                registraViaGateway(evento, evento.getRegistroGraph() == null);
+            else
+                removeViaGateway(evento);
+
             total++;
         }
         return total;
@@ -45,5 +49,15 @@ public class AgendaEventoParaMSGraph {
                 dtoRegistrado.createdDateTime(), dtoRegistrado.lastModifiedDateTime()));
 
         repository.salvar(evento, true);
+    }
+
+    private void removeViaGateway(AgendaEvento evento) {
+        if (evento.getRegistroGraph() == null || evento.getRegistroGraph().id() == null)
+            throw new IllegalStateException("Solicitando remoção de evento sem Id do MS Graph");
+
+        if (gateway.removeEvento(evento.getRegistroGraph().id()))
+            repository.salvaRemocaoEventoMsGraph(evento.getId());
+        else
+            throw new IllegalStateException(); // TODO: tratar erro quando a API não conseguir remover o evento
     }
 }

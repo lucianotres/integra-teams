@@ -94,4 +94,15 @@ public class MicrosoftGraphAPI implements MicrosoftGraphGateway {
         return convertToMSGraphEvent(returnedEvent);
     }
 
+    @Override
+    public boolean removeEvento(String id) {
+        try {
+            client.users().byUserId(defaultUserId).events().byEventId(id).delete();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
 }
