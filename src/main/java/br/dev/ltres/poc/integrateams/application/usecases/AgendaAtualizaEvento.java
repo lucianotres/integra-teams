@@ -4,6 +4,7 @@ import br.dev.ltres.poc.integrateams.application.dto.AgendaEventoDTO;
 import br.dev.ltres.poc.integrateams.application.dto.AgendaEventoDTOMapper;
 import br.dev.ltres.poc.integrateams.domain.model.AgendaEvento;
 import br.dev.ltres.poc.integrateams.domain.repository.AgendaEventoRepository;
+import jakarta.transaction.Transactional;
 
 public class AgendaAtualizaEvento {
     private final AgendaEventoRepository repository;
@@ -12,6 +13,7 @@ public class AgendaAtualizaEvento {
         this.repository = repository;
     }
 
+    @Transactional
     public AgendaEventoDTO executa(AgendaEventoDTO dto) {
         if (dto == null || dto.id() == null)
             throw new IllegalArgumentException("Evento não informado ou inválido.");
