@@ -24,7 +24,7 @@ public class AgendaEventoRepositoryImpl implements AgendaEventoRepository {
 
     @Override
     @Transactional
-    public AgendaEvento salvar(AgendaEvento evento) {
+    public AgendaEvento salvar(AgendaEvento evento, boolean alteraIncluiMsGraph) {
         AgendaEventoEntity entity;
 
         if (evento.getId() == null) {
@@ -32,7 +32,12 @@ public class AgendaEventoRepositoryImpl implements AgendaEventoRepository {
         } else {
             entity = jpaRepository.findById(evento.getId())
                     .orElseThrow(() -> new IllegalArgumentException("Evento não encontrado"));
-            AgendaEventoMapper.updateEntity(evento, entity);
+
+            AgendaEventoMapper.updateEntity(evento, entity, alteraIncluiMsGraph);
+
+            // alterações no evento da agenda, limpa changeKey para refletir no MS Graph
+            if (!alteraIncluiMsGraph && entity.getMsGraph() != null)
+                entity.getMsGraph().setChangeKey(null);
         }
 
         var savedEntity = jpaRepository.save(entity);

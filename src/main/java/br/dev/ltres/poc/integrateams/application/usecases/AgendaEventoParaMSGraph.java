@@ -38,6 +38,7 @@ public class AgendaEventoParaMSGraph {
 
         evento.setRegistroGraph(new RegistroEventoMSGraph(dtoRegistrado.id(), dtoRegistrado.changeKey(),
                 dtoRegistrado.createdDateTime(), dtoRegistrado.lastModifiedDateTime()));
-        repository.salvar(evento);
+
+        repository.salvar(evento, true);
     }
 }

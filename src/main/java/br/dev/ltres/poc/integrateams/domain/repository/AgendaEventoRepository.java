@@ -8,7 +8,7 @@ import br.dev.ltres.poc.integrateams.domain.model.AgendaEvento;
 
 public interface AgendaEventoRepository {
 
-    AgendaEvento salvar(AgendaEvento evento);
+    AgendaEvento salvar(AgendaEvento evento, boolean alteraIncluiMsGraph);
 
     Optional<AgendaEvento> buscaEvento(Long id);
 

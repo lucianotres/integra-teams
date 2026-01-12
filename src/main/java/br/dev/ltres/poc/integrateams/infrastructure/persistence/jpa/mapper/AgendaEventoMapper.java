@@ -41,7 +41,7 @@ public class AgendaEventoMapper {
         return domain;
     }
 
-    public static void updateEntity(AgendaEvento evento, AgendaEventoEntity entity) {
+    public static void updateEntity(AgendaEvento evento, AgendaEventoEntity entity, boolean alteraIncluiMsGraph) {
         entity.setTitulo(evento.getTitulo());
         entity.setDescricao(evento.getDescricao());
         entity.setInicio(evento.getInicio());
@@ -63,21 +63,23 @@ public class AgendaEventoMapper {
         entity.getCategorias()
                 .removeIf(c -> !categoriasNoEventoAtualizado.anyMatch(f -> f.equalsIgnoreCase(c.getCategoria())));
 
-        var msGraph = evento.getRegistroGraph();
-        if (msGraph == null) {
-            entity.setMsGraph(null);
-        } else {
-            var msGraphEntity = entity.getMsGraph();
-            if (msGraphEntity == null) {
-                msGraphEntity = new AgendaEventoMSGraphEntity();
-                msGraphEntity.setEvento(entity);
-                entity.setMsGraph(msGraphEntity);
-            }
+        if (alteraIncluiMsGraph) {
+            var msGraph = evento.getRegistroGraph();
+            if (msGraph == null) {
+                entity.setMsGraph(null);
+            } else {
+                var msGraphEntity = entity.getMsGraph();
+                if (msGraphEntity == null) {
+                    msGraphEntity = new AgendaEventoMSGraphEntity();
+                    msGraphEntity.setEvento(entity);
+                    entity.setMsGraph(msGraphEntity);
+                }
 
-            msGraphEntity.setMsGraphId(msGraph.id());
-            msGraphEntity.setChangeKey(msGraph.changeKey());
-            msGraphEntity.setCreatedDateTime(msGraph.createdDateTime());
-            msGraphEntity.setLastModifiedDateTime(msGraph.lastModifiedDateTime());
+                msGraphEntity.setMsGraphId(msGraph.id());
+                msGraphEntity.setChangeKey(msGraph.changeKey());
+                msGraphEntity.setCreatedDateTime(msGraph.createdDateTime());
+                msGraphEntity.setLastModifiedDateTime(msGraph.lastModifiedDateTime());
+            }
         }
     }
 }

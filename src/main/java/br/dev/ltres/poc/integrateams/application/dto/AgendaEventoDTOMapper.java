@@ -25,7 +25,7 @@ public class AgendaEventoDTOMapper {
     }
 
     public static AgendaEvento toDomain(AgendaEventoDTO dto) {
-        var evento = new AgendaEvento(null);
+        var evento = new AgendaEvento(dto.id());
         evento.setTitulo(dto.titulo());
         evento.setDescricao(dto.descricao());
         evento.setInicioFim(dto.inicio(), dto.fim());

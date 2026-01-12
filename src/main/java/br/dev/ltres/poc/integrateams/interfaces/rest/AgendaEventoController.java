@@ -12,21 +12,28 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.dev.ltres.poc.integrateams.application.dto.AgendaEventoDTO;
 import br.dev.ltres.poc.integrateams.application.usecases.AgendaAddEvento;
+import br.dev.ltres.poc.integrateams.application.usecases.AgendaAtualizaEvento;
 import br.dev.ltres.poc.integrateams.application.usecases.AgendaListaEventos;
 import br.dev.ltres.poc.integrateams.interfaces.rest.request.AgendaEventoAddDTO;
 import br.dev.ltres.poc.integrateams.interfaces.rest.request.AgendaEventoAddDTOMapper;
+import br.dev.ltres.poc.integrateams.interfaces.rest.request.AgendaEventoUpdDTO;
+import br.dev.ltres.poc.integrateams.interfaces.rest.request.AgendaEventoUpdDTOMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/api/agenda/evento")
 public class AgendaEventoController {
     private final AgendaListaEventos agendaListaEventos;
     private final AgendaAddEvento agendaAddEvento;
+    private final AgendaAtualizaEvento agendaAtualizaEvento;
 
-    public AgendaEventoController(AgendaListaEventos agendaListaEventos, AgendaAddEvento agendaAddEvento) {
+    public AgendaEventoController(AgendaListaEventos agendaListaEventos, AgendaAddEvento agendaAddEvento,
+            AgendaAtualizaEvento agendaAtualizaEvento) {
         this.agendaListaEventos = agendaListaEventos;
         this.agendaAddEvento = agendaAddEvento;
+        this.agendaAtualizaEvento = agendaAtualizaEvento;
     }
 
     @GetMapping
@@ -43,5 +50,13 @@ public class AgendaEventoController {
         var novo = agendaAddEvento.executa(adicionar);
         var uri = uriBuilder.path("/api/agenda/evento/{id}").buildAndExpand(novo.id()).toUri();
         return ResponseEntity.created(uri).body(novo);
+    }
+
+    @PutMapping
+    @Operation(summary = "Atualiza Evento", description = "Atualiza um evento existente na agenda.")
+    public ResponseEntity<AgendaEventoDTO> atualizaEvento(@RequestBody @Valid AgendaEventoUpdDTO evento) {
+        var atualizar = AgendaEventoUpdDTOMapper.toApp(evento);
+        var atualizado = agendaAtualizaEvento.executa(atualizar);
+        return ResponseEntity.ok(atualizado);
     }
 }
