@@ -6,3 +6,8 @@
 
 Utilizando API do Microsoft Graph conforme documentação oficial e SDK.  
 Doc em [learn.microsoft.com](https://learn.microsoft.com/en-us/graph/api/resources/calendar-overview?view=graph-rest-1.0)
+
+
+# Exemplo
+
+![GIF exemplo](img/exemplo-uso-put-post.gif)
