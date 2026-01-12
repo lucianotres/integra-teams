@@ -3,6 +3,7 @@ package br.dev.ltres.poc.integrateams.infrastructure.persistence.jpa.mapper;
 import br.dev.ltres.poc.integrateams.domain.model.AgendaEvento;
 import br.dev.ltres.poc.integrateams.domain.model.RegistroEventoMSGraph;
 import br.dev.ltres.poc.integrateams.infrastructure.persistence.jpa.entity.AgendaEventoEntity;
+import br.dev.ltres.poc.integrateams.infrastructure.persistence.jpa.entity.AgendaEventoMSGraphEntity;
 import br.dev.ltres.poc.integrateams.infrastructure.persistence.jpa.entity.AgendaEventoCategoriaEntity;
 
 public class AgendaEventoMapper {
@@ -38,5 +39,45 @@ public class AgendaEventoMapper {
         }
 
         return domain;
+    }
+
+    public static void updateEntity(AgendaEvento evento, AgendaEventoEntity entity) {
+        entity.setTitulo(evento.getTitulo());
+        entity.setDescricao(evento.getDescricao());
+        entity.setInicio(evento.getInicio());
+        entity.setFim(evento.getFim());
+
+        var categoriasJaNaEntity = entity.getCategorias().stream();
+        evento.getCategorias()
+                .stream()
+                .filter(f -> !categoriasJaNaEntity.anyMatch(c -> c.getCategoria().equalsIgnoreCase(f)))
+                .toList()
+                .forEach(c -> {
+                    var novaCategoria = new AgendaEventoCategoriaEntity();
+                    novaCategoria.setEvento(entity);
+                    novaCategoria.setCategoria(c);
+                    entity.getCategorias().add(novaCategoria);
+                });
+
+        var categoriasNoEventoAtualizado = evento.getCategorias().stream();
+        entity.getCategorias()
+                .removeIf(c -> !categoriasNoEventoAtualizado.anyMatch(f -> f.equalsIgnoreCase(c.getCategoria())));
+
+        var msGraph = evento.getRegistroGraph();
+        if (msGraph == null) {
+            entity.setMsGraph(null);
+        } else {
+            var msGraphEntity = entity.getMsGraph();
+            if (msGraphEntity == null) {
+                msGraphEntity = new AgendaEventoMSGraphEntity();
+                msGraphEntity.setEvento(entity);
+                entity.setMsGraph(msGraphEntity);
+            }
+
+            msGraphEntity.setMsGraphId(msGraph.id());
+            msGraphEntity.setChangeKey(msGraph.changeKey());
+            msGraphEntity.setCreatedDateTime(msGraph.createdDateTime());
+            msGraphEntity.setLastModifiedDateTime(msGraph.lastModifiedDateTime());
+        }
     }
 }

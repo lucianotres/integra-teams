@@ -25,7 +25,16 @@ public class AgendaEventoRepositoryImpl implements AgendaEventoRepository {
     @Override
     @Transactional
     public AgendaEvento salvar(AgendaEvento evento) {
-        var entity = AgendaEventoMapper.toEntity(evento);
+        AgendaEventoEntity entity;
+
+        if (evento.getId() == null) {
+            entity = AgendaEventoMapper.toEntity(evento);
+        } else {
+            entity = jpaRepository.findById(evento.getId())
+                    .orElseThrow(() -> new IllegalArgumentException("Evento não encontrado"));
+            AgendaEventoMapper.updateEntity(evento, entity);
+        }
+
         var savedEntity = jpaRepository.save(entity);
         return AgendaEventoMapper.toDomain(savedEntity);
     }
