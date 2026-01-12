@@ -5,6 +5,7 @@ import br.dev.ltres.poc.integrateams.application.gateway.MicrosoftGraphGateway;
 import br.dev.ltres.poc.integrateams.domain.model.AgendaEvento;
 import br.dev.ltres.poc.integrateams.domain.model.RegistroEventoMSGraph;
 import br.dev.ltres.poc.integrateams.domain.repository.AgendaEventoRepository;
+import jakarta.transaction.Transactional;
 
 public class AgendaEventoParaMSGraph {
     private final AgendaEventoRepository repository;
@@ -15,15 +16,19 @@ public class AgendaEventoParaMSGraph {
         this.gateway = gateway;
     }
 
-    public void executa() {
+    @Transactional
+    public int executa() {
         var aEnviar = repository.buscaEventosAEnviar();
 
         if (aEnviar == null || aEnviar.isEmpty())
-            return;
+            return 0;
 
+        int total = 0;
         for (var evento : aEnviar) {
             registraViaGateway(evento, evento.getRegistroGraph() == null);
+            total++;
         }
+        return total;
     }
 
     private void registraViaGateway(AgendaEvento evento, boolean novo) {
